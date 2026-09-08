@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-08T13:49:55.791408+00:00",
+  "model": "qwen3.5:9b",
+  "ollama_url": "http://127.0.0.1:11436",
+  "gpu": "3",
+  "temperature": 0,
+  "num_predict": 512,
+  "ollama_format": "json",
+  "protocol_revision": 2,
+  "window_lines": 8,
+  "max_context_chars": 16000,
+  "fixed_keywords": [
+    "balance",
+    "call"
+  ],
+  "re_definition": "Reentrancy (RE) exists when an externally reachable interaction can occur before a relevant state update, allowing the callee to re-enter the contract and observe or modify an inconsistent state. The mere presence of balance or call is not sufficient; judge the interaction order, relevant state reads/writes, and protection conditions.",
+  "sample_manifest_sha256": "a6be2950b052d883cecbf5bb9094b9e04aeb3a5290a6740f4010a56050286a04",
+  "model_records": [
+    {
+      "name": "qwen3.5:9b",
+      "model": "qwen3.5:9b",
+      "modified_at": "2026-07-20T18:38:02.273993718+08:00",
+      "size": 6594474711,
+      "digest": "6488c96fa5faab64bb65cbd30d4289e20e6130ef535a93ef9a49f42eda893ea7",
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen35",
+        "families": [
+          "qwen35"
+        ],
+        "parameter_size": "9.7B",
+        "quantization_level": "Q4_K_M",
+        "context_length": 262144,
+        "embedding_length": 4096
+      },
+      "capabilities": [
+        "vision",
+        "completion",
+        "tools",
+        "thinking"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+scope,method,method_name,n_total,n_valid,coverage,tp,tn,fp,fn,precision,recall,f1,mcc,accuracy,success,no_candidate,parse_failed
+overall,direct,直接 Qwen,50,49,0.98,18,14,11,6,0.6207,0.75,0.6792,0.3153,0.6531,49,0,1
+overall,fixed_rule,固定规则 balance/call,50,50,1.0,6,25,0,19,1.0,0.24,0.3871,0.3693,0.62,49,1,0
+overall,llm_keyword,LLM keyword 检测,50,49,0.98,12,21,3,13,0.8,0.48,0.6,0.3851,0.6735,47,2,1

@@ -34,6 +34,6 @@
   "input_sha256": {
     "task_manifest": "5946b22a502cd8f90c236f95ec9e93ea2fd0dd025347cf3a8f9bb84661e378cf",
     "source_manifest": "3b98c98b163bc42fa4e4ac2f2dda589e138b1a4ce86072a236c2fd628d46007a",
-    "sampling_script": "5ec769eca1c7e8711db1acb5e135d44f6e88d3fcc624e5ef389161f28ee72459"
+    "sampling_script": "d06be2c2a95f56c6d4a9e28dfb17249e1bbd45711d8b81ebc6783033b668a7b6"
   }
 }

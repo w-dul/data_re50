@@ -9,11 +9,13 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[3]
-DATASET = ROOT / "04-datasets/dive/splits/DIVE_balanced/dataset"
+TEP_ROOT = Path(__file__).resolve().parents[4]
+DATA_RE = Path(__file__).resolve().parents[1]
+DATASET = TEP_ROOT / "04-datasets/dive/splits/DIVE_balanced/dataset"
 TASK_MANIFEST = DATASET / "manifests/task_manifest.csv"
 SOURCE_MANIFEST = DATASET / "manifests/source_manifest.csv"
-OUTPUT = Path(__file__).resolve().parent
+CONTRACT = DATA_RE / "00_contract"
+SOURCES_OUT = DATA_RE / "01_sources"
 SEED = 42
 QUOTAS = {
     ("<100", "1"): 8,
@@ -67,8 +69,10 @@ def load_sources() -> dict[str, dict[str, object]]:
 
 
 def main() -> None:
-    if any(path.name != "sample_re50.py" for path in OUTPUT.iterdir()):
-        raise FileExistsError(f"refusing to overwrite non-empty output: {OUTPUT}")
+    if (CONTRACT / "sample_manifest.csv").exists() or any(SOURCES_OUT.glob("*.sol")):
+        raise FileExistsError(
+            f"refusing to overwrite frozen sample; remove outputs only when intentionally re-sampling: {DATA_RE}"
+        )
 
     sources = load_sources()
     pools: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
@@ -104,11 +108,12 @@ def main() -> None:
     if len({str(item["contract_id"]) for item in selected}) != len(selected):
         raise AssertionError("duplicate contract selected")
 
-    (OUTPUT / "sources").mkdir(exist_ok=True)
+    CONTRACT.mkdir(exist_ok=True)
+    SOURCES_OUT.mkdir(exist_ok=True)
     records: list[dict[str, object]] = []
     for index, item in enumerate(selected, start=1):
         filename = f"{item['contract_id']}.sol"
-        shutil.copyfile(item["source_path"], OUTPUT / "sources" / filename)
+        shutil.copyfile(item["source_path"], SOURCES_OUT / filename)
         records.append({
             "sample_id": f"re-case-{index:02d}",
             "task": "RE",
@@ -116,7 +121,7 @@ def main() -> None:
             "final_label": item["final_label"],
             "stratum": item["stratum"],
             "physical_loc": item["physical_loc"],
-            "source_file": f"sources/{filename}",
+            "source_file": f"01_sources/{filename}",
             "source_sha256": item["source_sha256"],
             "source_bytes": item["source_bytes"],
             "label_basis": item["label_basis"],
@@ -125,11 +130,11 @@ def main() -> None:
         })
 
     fields = list(records[0])
-    with (OUTPUT / "sample_manifest.csv").open("w", newline="", encoding="utf-8") as handle:
+    with (CONTRACT / "sample_manifest.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(records)
-    (OUTPUT / "sample_manifest.json").write_text(
+    (CONTRACT / "sample_manifest.json").write_text(
         json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
@@ -151,7 +156,7 @@ def main() -> None:
             "sampling_script": sha256(Path(__file__)),
         },
     }
-    (OUTPUT / "sampling_report.json").write_text(
+    (CONTRACT / "sampling_report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
@@ -163,14 +168,14 @@ def main() -> None:
         "cell_quotas": Counter((row["stratum"], str(row["final_label"])) for row in records) == Counter(QUOTAS),
     }
     for row in records:
-        copied = OUTPUT / row["source_file"]
+        copied = DATA_RE / row["source_file"]
         checks[f"hash_{row['contract_id']}"] = sha256(copied) == row["source_sha256"]
     validation = {
         "status": "passed" if all(checks.values()) else "failed",
         "checks": checks,
-        "sample_manifest_sha256": sha256(OUTPUT / "sample_manifest.csv"),
+        "sample_manifest_sha256": sha256(CONTRACT / "sample_manifest.csv"),
     }
-    (OUTPUT / "validation.json").write_text(
+    (CONTRACT / "validation.json").write_text(
         json.dumps(validation, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(json.dumps({"status": validation["status"], **report}, ensure_ascii=False, sort_keys=True))
