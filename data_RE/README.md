@@ -175,3 +175,7 @@ data_RE/
 三种方法已经在 GPU 3 的 Ollama `qwen3.5:9b` 上完成首轮运行和一次失败项重试。结果表为 [experiment_results.csv](02_results/experiment_results.csv)，总体指标见 [metrics_summary.csv](02_results/metrics_summary.csv)，复杂度分层指标见 [metrics_by_stratum.csv](02_results/metrics_by_stratum.csv)，运行身份和失败说明见 [run-report.md](03_raw_evidence/run-report.md)。
 
 本批次总体 Recall：直接 Qwen `0.75`，LLM keyword 检测 `0.48`，固定 `balance/call` 规则 `0.24`。这些数字仅是 50 条分层样本上的探索性观察。
+
+## 13. 实例分析
+
+五个代表性实例、三种方法的候选与证据对照、初步人工复核和跨实例解释见 [05_instance_analysis.md](05_instance_analysis.md)。

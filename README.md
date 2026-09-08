@@ -16,6 +16,7 @@
 - 结果表与指标：[data_RE/02_results/](data_RE/02_results/)
 - 原始响应与运行身份：[data_RE/03_raw_evidence/](data_RE/03_raw_evidence/)
 - 抽样、运行、汇总脚本：[data_RE/04_scripts/](data_RE/04_scripts/)
+- 五个代表性实例分析：[data_RE/05_instance_analysis.md](data_RE/05_instance_analysis.md)
 
 ## 权威性规则
 
