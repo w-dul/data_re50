@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "dataset": "DIVE_balanced",
+  "unit": "contract-vulnerability task case",
+  "task": "RE",
+  "sample_size": 50,
+  "seed": 42,
+  "stratum_basis": "physical lines in frozen source_file; <100, 100-300, >300",
+  "quotas": {
+    "<100/label-1": 8,
+    "<100/label-0": 7,
+    "100-300/label-1": 5,
+    "100-300/label-0": 10,
+    ">300/label-1": 12,
+    ">300/label-0": 8
+  },
+  "stratum_distribution": {
+    "100-300": 15,
+    "<100": 15,
+    ">300": 20
+  },
+  "label_distribution": {
+    "0": 25,
+    "1": 25
+  },
+  "cell_distribution": {
+    "100-300/label-0": 10,
+    "100-300/label-1": 5,
+    "<100/label-0": 7,
+    "<100/label-1": 8,
+    ">300/label-0": 8,
+    ">300/label-1": 12
+  },
+  "input_sha256": {
+    "task_manifest": "5946b22a502cd8f90c236f95ec9e93ea2fd0dd025347cf3a8f9bb84661e378cf",
+    "source_manifest": "3b98c98b163bc42fa4e4ac2f2dda589e138b1a4ce86072a236c2fd628d46007a",
+    "sampling_script": "5ec769eca1c7e8711db1acb5e135d44f6e88d3fcc624e5ef389161f28ee72459"
+  }
+}
